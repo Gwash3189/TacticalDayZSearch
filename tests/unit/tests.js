@@ -56,3 +56,53 @@ var TacZ;
     })(TacZ.Util || (TacZ.Util = {}));
     var Util = TacZ.Util;
 })(TacZ || (TacZ = {}));
+describe("List<T>", function () {
+    describe("Remove", function () {
+        it("Should remove an item by Id", function () {
+            var list = new TacZ.Util.List();
+            list.Push({ Id: 1 });
+            list.Remove('Id', 1);
+            expect(list.Items.length).toBe(0);
+        });
+
+        it("Should return the index the item was at", function () {
+            var list = new TacZ.Util.List();
+            list.Push({ Id: 1 });
+            var result = list.Remove('Id', 1);
+            expect(result).toBe(0);
+        });
+    });
+
+    describe("RemoveBy", function () {
+        it("Should remove an item when the callback returns true", function () {
+            var list = new TacZ.Util.List();
+            list.Push({ Id: 1 });
+            list.RemoveBy(function (x) {
+                return x.Id === 1;
+            });
+            expect(list.Items.length).toBe(0);
+        });
+
+        it("Should return the index the item was at", function () {
+            var list = new TacZ.Util.List();
+            list.Push({ Id: 1 });
+            expect(list.RemoveBy(function (x) {
+                return x.Id === 1;
+            })).toBe(0);
+        });
+
+        it("Should call the passed in callback", function () {
+            var list = new TacZ.Util.List();
+            var obj = {};
+            obj.callback = function (x) {
+                return x.Id === 1;
+            };
+
+            var spy = spyOn(obj, "callback").and.callThrough();
+            list.Push({ Id: 1 });
+            list.RemoveBy(obj.callback);
+            expect(spy).toHaveBeenCalled();
+        });
+    });
+});
+//# sourceMappingURL=tests.js.map
