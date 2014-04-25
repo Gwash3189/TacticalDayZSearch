@@ -31,14 +31,14 @@ module.exports = function (grunt) {
         watch: {
             ts: {
                 files: 'app/**/*.ts',
-                tasks: ['typescript'],
+                tasks: ['typescript', 'karma'],
                 options: {
                     interrupt: true
                 }
             },
             tests: {
                 files: 'tests/**/*.ts',
-                tasks: ['typescript:unit','karma'],
+                tasks: ['typescript','karma'],
                 options: {
                     interrupt: true
                 }
