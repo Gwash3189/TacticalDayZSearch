@@ -1,3 +1,4 @@
+angular.module("TacZ", []);
 var TacZ;
 (function (TacZ) {
     (function (Util) {
@@ -50,9 +51,66 @@ var TacZ;
                 }
                 return -1;
             };
+
+            List.prototype.Search = function (prop, value) {
+                var tmp = new TacZ.Util.List();
+                this.Items.map(function (item) {
+                    if (item[prop] === value) {
+                        tmp.Push(item);
+                    }
+                });
+                return tmp;
+            };
+
+            List.prototype.SearchBy = function (callback) {
+                var tmp = new TacZ.Util.List();
+                this.Items.map(function (item) {
+                    if (callback(item)) {
+                        tmp.Push(item);
+                    }
+                });
+                return tmp;
+            };
             return List;
         })();
         Util.List = List;
     })(TacZ.Util || (TacZ.Util = {}));
     var Util = TacZ.Util;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Building = (function () {
+            function Building(Name, Description, Id) {
+                this.Name = Name;
+                this.Description = Description;
+                this.Id = Id;
+            }
+            Building.prototype.GetId = function () {
+                return this.Id;
+            };
+            return Building;
+        })();
+        Model.Building = Building;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var City = (function () {
+            function City(Name, Description, Buildings, Id) {
+                this.Name = Name;
+                this.Description = Description;
+                this.Buildings = Buildings;
+                this.Id = Id;
+            }
+            City.prototype.GetId = function () {
+                return this.Id;
+            };
+            return City;
+        })();
+        Model.City = City;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
 })(TacZ || (TacZ = {}));
