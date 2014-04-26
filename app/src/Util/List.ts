@@ -74,6 +74,10 @@ module TacZ {
                 });
                 return tmp;
             }
+
+            public GetItemAtIndex(index:number):T {
+                return this.Items[index];
+            }
         }
     }
 }

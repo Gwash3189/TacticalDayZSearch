@@ -103,6 +103,10 @@ var TacZ;
                 });
                 return tmp;
             };
+
+            List.prototype.GetItemAtIndex = function (index) {
+                return this.Items[index];
+            };
             return List;
         })();
         Util.List = List;
