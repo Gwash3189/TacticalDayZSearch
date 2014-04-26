@@ -1,0 +1,67 @@
+{
+	"Buildings": [
+        {
+            "Name": "East Cellblock",
+            "BuildingType": "Cellblock",
+            "BuildingDescription": "Two storey, Cell downstairs",
+            "LocationDescription": "Attached to south side of runway",
+            "Id": "neaf-east-cellblock"
+        },
+        {
+            "Name": "Middle Building",
+            "BuildingType": "Generic",
+            "BuildingDescription": "Next to Cellblock, unenterable",
+            "LocationDescription": "Attached to south side of runway",
+            "Id": "neaf-middle-building"
+        },
+        {
+            "Name": "Control Tower",
+            "BuildingType": "Control Tower",
+            "BuildingDescription": "Two storey, second storey glass.",
+            "LocationDescription": "Attached to south side of runway",
+            "Id": "neaf-control-tower"
+        },
+		{
+			"Name": "West Hangar",
+			"BuildingType": "Hangar",
+			"BuildingDescription": "Large Aircraft Hangar (1 of 2)",
+			"LocationDescription": "South side of runway",
+			"Id": "neaf-west-hangar"
+		},
+        {
+            "Name": "East Hangar",
+            "BuildingType": "Hangar",
+            "BuildingDescription": "Large Aircraft Hangar (1 of 2)",
+            "LocationDescription": "South side of runway",
+            "Id": "neaf-east-hangar"
+        },
+        {
+            "Name": "West Cellblock",
+            "BuildingType": "Cellblock",
+            "BuildingDescription": "Two storey, Cell downstairs",
+            "LocationDescription": "West-most building attached to runway.",
+            "Id": "neaf-west-cellblock"
+        },
+        {
+            "Name": "North Hut",
+            "BuildingType": "Farmhouse",
+            "BuildingDescription": "Single Farm house",
+            "LocationDescription": "North of runway",
+            "Id": "neaf-north-hut"
+        },
+        {
+            "Name": "North-East Hut",
+            "BuildingType": "Farmhouse",
+            "BuildingDescription": "Single Farm house",
+            "LocationDescription": "North-east of runway",
+            "Id": "neaf-north-east-hut"
+        },
+        {
+            "Name": "East Hut",
+            "BuildingType": "Farmhouse",
+            "BuildingDescription": "Single Farm house",
+            "LocationDescription": "East of runway",
+            "Id": "neaf-east-hut"
+        },
+	]
+}
