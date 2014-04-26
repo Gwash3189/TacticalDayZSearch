@@ -25,6 +25,7 @@ build/Release
 node_modules
 
 #ignoreing stupid .idea folder
+#if having trouble try http://blog.pagebakers.nl/2009/01/29/git-ignoring-changes-in-tracked-files/
 .idea
 .idea/
 .idea/*
