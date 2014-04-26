@@ -1,4 +1,36 @@
-angular.module("TacZ", []);
+angular.module("TacZ", []).config(function ($stateProvider, $urlRouterProvider) {
+    var States = new TacZ.States.States();
+    States.List.Items.map(function (state) {
+        $stateProvider.state(state);
+    });
+
+    $urlRouterProvider.otherwise("/");
+});
+
+var TacZ;
+(function (TacZ) {
+    (function (_States) {
+        var State = (function () {
+            function State(name, templateUrl, url) {
+                this.name = name;
+                this.templateUrl = templateUrl;
+                this.url = url;
+            }
+            return State;
+        })();
+        _States.State = State;
+        var States = (function () {
+            function States() {
+                this.List = new TacZ.Util.List();
+                this.List.Push(new State("root", "Search/Search.html", "/"));
+                this.List.Push(new State("results", "Results/Results.html", "/results"));
+            }
+            return States;
+        })();
+        _States.States = States;
+    })(TacZ.States || (TacZ.States = {}));
+    var States = TacZ.States;
+})(TacZ || (TacZ = {}));
 var TacZ;
 (function (TacZ) {
     (function (Util) {
@@ -70,6 +102,10 @@ var TacZ;
                     }
                 });
                 return tmp;
+            };
+
+            List.prototype.GetItemAtIndex = function (index) {
+                return this.Items[index];
             };
             return List;
         })();

@@ -12,6 +12,7 @@ module TacZ {
                 GetIndexBy: (callback: (obj:T) => boolean) => number;
                 Search: (prop: string, value: any) => IList<T>;
                 SearchBy: (callback: (obj:T)=>boolean) => IList<T>;
+                GetItemAtIndex: (index: number) => T;
             }
         }
 

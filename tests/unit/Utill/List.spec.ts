@@ -88,7 +88,17 @@ describe("List<T>", () => {
     describe("SearchBy", () => {
         it("Should return an array of items that match the criteria in the callback", () => {
             list.Push({Id: 1, Name: "Derp"}, {Id: 1, Name: "Herp"});
-            expect(list.SearchBy((x) => {return x.Name === "Derp"}).Items.length).toBe(1);
+            expect(list.SearchBy((x) => {
+                return x.Name === "Derp"
+            }).Items.length).toBe(1);
         });
     });
+
+    describe("Get", () => {
+        it("Should get the item at the specified index", () => {
+            list.Push({Id: 1});
+            expect(list.GetItemAtIndex(0)).toBeTruthy();
+            expect(list.GetItemAtIndex(0).Id).toEqual(1);
+        });
+    })
 });

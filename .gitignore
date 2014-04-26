@@ -23,5 +23,11 @@ build/Release
 # Deployed apps should consider commenting this line out:
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
+
+#ignoreing stupid .idea folder
+#if having trouble try http://blog.pagebakers.nl/2009/01/29/git-ignoring-changes-in-tracked-files/
 .idea
-.idea/workspace.xml
+.idea/
+.idea/*
+
+
