@@ -4,5 +4,18 @@
   "ref": "master",
   "path": "typings",
   "bundle": "typings/tsd.d.ts",
-  "installed": {}
+  "installed": {
+    "angular-ui/angular-ui-router.d.ts": {
+      "commit": "dc64f82c77c94f1be9108545f2bd6a71c1017607"
+    },
+    "jasmine/jasmine.d.ts": {
+      "commit": "dc64f82c77c94f1be9108545f2bd6a71c1017607"
+    },
+    "angularjs/angular.d.ts": {
+      "commit": "dc64f82c77c94f1be9108545f2bd6a71c1017607"
+    },
+    "jquery/jquery.d.ts": {
+      "commit": "dc64f82c77c94f1be9108545f2bd6a71c1017607"
+    }
+  }
 }
