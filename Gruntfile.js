@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         typescript: {
             base: {
-                src: ['app/_app.ts','app/src/**/*.ts'],
+                src: ['app/_app.ts', 'app/src/**/*.ts'],
                 dest: 'production/app.js',
                 options: {
                     target: 'es5', //IE 9 or greater
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
             },
             tests: {
                 files: 'tests/**/*.ts',
-                tasks: ['typescript','karma'],
+                tasks: ['typescript', 'karma'],
                 options: {
                     interrupt: true
                 }
@@ -69,6 +69,12 @@ module.exports = function (grunt) {
                 src: '**',
                 dest: 'production/Region/',
                 cwd: "app/src/Region/",
+                expand: true
+            },
+            templates: {
+                src: '*.html',
+                dest: 'production/Template/',
+                cwd: 'app/src/Template',
                 expand: true
             }
         }

@@ -1,4 +1,4 @@
-angular.module("TacZ", []).config(function ($stateProvider, $urlRouterProvider) {
+angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
     var states = new TacZ.States.States();
     states.List.Items.map(function (state) {
         $stateProvider.state(state);
@@ -10,10 +10,11 @@ var TacZ;
 (function (TacZ) {
     (function (Model) {
         var State = (function () {
-            function State(name, templateUrl, url) {
+            function State(name, templateUrl, url, controller, resolve) {
                 this.name = name;
                 this.templateUrl = templateUrl;
                 this.url = url;
+                this.controller = controller;
             }
             return State;
         })();
@@ -27,8 +28,7 @@ var TacZ;
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("root", "Search/Search.html", "/"));
-                this.List.Push(new TacZ.Model.State("results", "Results/Results.html", "/results"));
+                this.List.Push(new TacZ.Model.State("root", "Template/Search.html", "/", "SearchController"));
             }
             return States;
         })();
@@ -152,6 +152,99 @@ var TacZ;
             return City;
         })();
         Model.City = City;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Region = (function () {
+            function Region(Id, Cities, Buildings, Roads, Name, Description, ImgLocation) {
+                this.Id = Id;
+                this.Cities = Cities;
+                this.Buildings = Buildings;
+                this.Roads = Roads;
+                this.Name = Name;
+                this.Description = Description;
+                this.ImgLocation = ImgLocation;
+            }
+            return Region;
+        })();
+        Model.Region = Region;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (RegionLoader) {
+        var Loader = (function () {
+            function Loader($http) {
+                this.Location = "Region/";
+                this.Json = ".json";
+                this.Png = ".png";
+                this.FileSeperator = "/";
+                this.$http = $http;
+            }
+            Loader.prototype.Get = function (region) {
+                var _this = this;
+                debugger;
+                return this.$http.get(this.CreateRegionJsonString(region)).then(function (result) {
+                    debugger;
+                    var data = result.data;
+                    result.data = new TacZ.Model.Region(data.Id, new TacZ.Util.List(data.Cities), new TacZ.Util.List(data.Buildings), new TacZ.Util.List(), data.Name, data.Description, _this.CreateRegionPngString(region));
+                    return result.data;
+                });
+            };
+
+            Loader.prototype.CreateRegionJsonString = function (region) {
+                return this.Location + region + this.FileSeperator + region + this.Json;
+            };
+
+            Loader.prototype.CreateRegionPngString = function (region) {
+                return this.Location + region + this.FileSeperator + region + this.Png;
+            };
+            return Loader;
+        })();
+        RegionLoader.Loader = Loader;
+    })(TacZ.RegionLoader || (TacZ.RegionLoader = {}));
+    var RegionLoader = TacZ.RegionLoader;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").service("RegionLoaderService", TacZ.RegionLoader.Loader);
+var TacZ;
+(function (TacZ) {
+    (function (Search) {
+        (function (Controller) {
+            var SearchController = (function () {
+                function SearchController($scope, RegionLoaderService) {
+                    this.Testing = "Working";
+                    $scope.vm = this;
+                    $scope.vm.neaf = {};
+                    RegionLoaderService.Get("neaf").then(function (data) {
+                        $scope.vm.neaf = data;
+                    });
+                }
+                return SearchController;
+            })();
+            Controller.SearchController = SearchController;
+        })(Search.Controller || (Search.Controller = {}));
+        var Controller = Search.Controller;
+    })(TacZ.Search || (TacZ.Search = {}));
+    var Search = TacZ.Search;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").controller("SearchController", TacZ.Search.Controller.SearchController);
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Road = (function () {
+            function Road(Name, Description, Buildings, Id) {
+                this.Name = Name;
+                this.Description = Description;
+                this.Buildings = Buildings;
+                this.Id = Id;
+            }
+            return Road;
+        })();
+        Model.Road = Road;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
 })(TacZ || (TacZ = {}));

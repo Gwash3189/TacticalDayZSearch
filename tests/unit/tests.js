@@ -1,4 +1,4 @@
-angular.module("TacZ", []).config(function ($stateProvider, $urlRouterProvider) {
+angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
     var states = new TacZ.States.States();
     states.List.Items.map(function (state) {
         $stateProvider.state(state);
@@ -10,10 +10,11 @@ var TacZ;
 (function (TacZ) {
     (function (Model) {
         var State = (function () {
-            function State(name, templateUrl, url) {
+            function State(name, templateUrl, url, controller, resolve) {
                 this.name = name;
                 this.templateUrl = templateUrl;
                 this.url = url;
+                this.controller = controller;
             }
             return State;
         })();
@@ -27,8 +28,7 @@ var TacZ;
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("root", "Search/Search.html", "/"));
-                this.List.Push(new TacZ.Model.State("results", "Results/Results.html", "/results"));
+                this.List.Push(new TacZ.Model.State("root", "Template/Search.html", "/", "SearchController"));
             }
             return States;
         })();
@@ -155,28 +155,65 @@ var TacZ;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
 })(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Region = (function () {
+            function Region(Id, Cities, Buildings, Roads, Name, Description, ImgLocation) {
+                this.Id = Id;
+                this.Cities = Cities;
+                this.Buildings = Buildings;
+                this.Roads = Roads;
+                this.Name = Name;
+                this.Description = Description;
+                this.ImgLocation = ImgLocation;
+            }
+            return Region;
+        })();
+        Model.Region = Region;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (RegionLoader) {
+        var Loader = (function () {
+            function Loader($http) {
+                this.Location = "Region/";
+                this.Json = ".json";
+                this.Png = ".png";
+                this.FileSeperator = "/";
+                this.$http = $http;
+            }
+            Loader.prototype.Get = function (region) {
+                var _this = this;
+                debugger;
+                return this.$http.get(this.CreateRegionJsonString(region)).then(function (result) {
+                    debugger;
+                    var data = result.data;
+                    result.data = new TacZ.Model.Region(data.Id, new TacZ.Util.List(data.Cities), new TacZ.Util.List(data.Buildings), new TacZ.Util.List(), data.Name, data.Description, _this.CreateRegionPngString(region));
+                    return result.data;
+                });
+            };
+
+            Loader.prototype.CreateRegionJsonString = function (region) {
+                return this.Location + region + this.FileSeperator + region + this.Json;
+            };
+
+            Loader.prototype.CreateRegionPngString = function (region) {
+                return this.Location + region + this.FileSeperator + region + this.Png;
+            };
+            return Loader;
+        })();
+        RegionLoader.Loader = Loader;
+    })(TacZ.RegionLoader || (TacZ.RegionLoader = {}));
+    var RegionLoader = TacZ.RegionLoader;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").service("RegionLoaderService", TacZ.RegionLoader.Loader);
 describe("States", function () {
     var state;
     beforeEach(function () {
         state = new TacZ.States.States();
-    });
-
-    it("Should have two states", function () {
-        expect(state.List.Items.length).toBe(2);
-    });
-
-    it("Should have a root route", function () {
-        var result = state.List.Search("name", "root");
-        expect(result.Items.length).toEqual(1);
-        expect(result.GetItemAtIndex(0).name).toBe("root");
-        expect(result.GetItemAtIndex(0).url).toBe("/");
-    });
-
-    it("Should have a results route", function () {
-        var result = state.List.Search("name", "results");
-        expect(result.Items.length).toEqual(1);
-        expect(result.GetItemAtIndex(0).name).toBe("results");
-        expect(result.GetItemAtIndex(0).url).toBe("/results");
     });
 });
 describe("List<T>", function () {
