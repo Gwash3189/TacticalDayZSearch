@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-typescript");
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-karma');
 
     // Configure grunt here
@@ -45,7 +46,11 @@ module.exports = function (grunt) {
             },
             css: {
                 files: 'app/style/**/*.css',
-                tasks: ['conca:css']
+                tasks: ['concat:css']
+            },
+            copy: {
+                files: 'app/src/Region/**',
+                tasks: ['copy:regions']
             }
         },
         concat: {
@@ -58,7 +63,14 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'karma.conf.unit.js'
             }
+        },
+        copy: {
+            regions: {
+                src: '**',
+                dest: 'production/Region/',
+                cwd: "app/src/Region/",
+                expand: true
+            }
         }
-
     });
 };
