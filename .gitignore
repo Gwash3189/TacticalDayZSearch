@@ -30,4 +30,7 @@ node_modules
 .idea/
 .idea/*
 
+#ignoring the production/Region folder so we don't have two copies of pictures in the repo.
+production/Region
+
 

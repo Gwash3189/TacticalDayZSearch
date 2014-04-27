@@ -1,29 +1,30 @@
 {
-    "name": "TacticalDayZSearch",
-    "version": "0.0.0",
-    "description": "TacticalDayZSearch ==================",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Gwash3189/TacticalDayZSearch.git"
-    },
-    "author": "Adam Beck & Jackson Carlos",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/Gwash3189/TacticalDayZSearch/issues"
-    },
-    "homepage": "https://github.com/Gwash3189/TacticalDayZSearch",
-    "devDependencies": {
-        "grunt-contrib-concat": "^0.4.0",
-        "grunt-contrib-watch": "^0.6.1",
-        "grunt": "^0.4.4",
-        "karma": "^0.12.10",
-        "karma-jasmine": "~0.2.0",
-        "grunt-karma": "^0.8.2",
-        "karma-phantomjs-launcher": "^0.1.4",
-        "grunt-typescript": "^0.3.0"
-    }
+  "name": "TacticalDayZSearch",
+  "version": "0.0.0",
+  "description": "TacticalDayZSearch ==================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gwash3189/TacticalDayZSearch.git"
+  },
+  "author": "Adam Beck & Jackson Carlos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gwash3189/TacticalDayZSearch/issues"
+  },
+  "homepage": "https://github.com/Gwash3189/TacticalDayZSearch",
+  "devDependencies": {
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt": "^0.4.4",
+    "karma": "^0.12.10",
+    "karma-jasmine": "~0.2.0",
+    "grunt-karma": "^0.8.2",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "grunt-typescript": "^0.3.0",
+    "grunt-contrib-copy": "^0.5.0"
+  }
 }
