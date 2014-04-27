@@ -1,15 +1,14 @@
 angular.module("TacZ", []).config(function ($stateProvider, $urlRouterProvider) {
-    var States = new TacZ.States.States();
-    States.List.Items.map(function (state) {
+    var states = new TacZ.States.States();
+    states.List.Items.map(function (state) {
         $stateProvider.state(state);
     });
 
     $urlRouterProvider.otherwise("/");
 });
-
 var TacZ;
 (function (TacZ) {
-    (function (_States) {
+    (function (Model) {
         var State = (function () {
             function State(name, templateUrl, url) {
                 this.name = name;
@@ -18,12 +17,18 @@ var TacZ;
             }
             return State;
         })();
-        _States.State = State;
+        Model.State = State;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (_States) {
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new State("root", "Search/Search.html", "/"));
-                this.List.Push(new State("results", "Results/Results.html", "/results"));
+                this.List.Push(new TacZ.Model.State("root", "Search/Search.html", "/"));
+                this.List.Push(new TacZ.Model.State("results", "Results/Results.html", "/results"));
             }
             return States;
         })();

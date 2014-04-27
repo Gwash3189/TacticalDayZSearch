@@ -7,6 +7,9 @@
 
 
 ///<reference path='src/app.ts' />
+///<reference path='src/Model/State.ts' />
+///<reference path='src/Util/UiStates.ts' />
+
 
 ///<reference path='src/Util/List.ts' />
 
