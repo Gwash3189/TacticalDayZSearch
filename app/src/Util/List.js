@@ -1,28 +1,24 @@
-///<reference path="../../_app.ts" />
-module TacZ {
-    export module Util {
-        export class List<T> implements TacZ.Interface.Util.IList<T> {
-            public Items:Array<T>;
-
-            constructor(list?:Array<T>) {
+var TacZ;
+(function (TacZ) {
+    (function (Util) {
+        var List = (function () {
+            function List(list) {
                 if (list) {
                     this.Items = list;
-                }
-                else {
-                    this.Items = new Array<T>();
+                } else {
+                    this.Items = new Array();
                 }
             }
-
-            public Push(item:T) {
+            List.prototype.Push = function (item) {
                 this.Items.push(item);
                 return this;
-            }
+            };
 
-            public PushRange(list:Array<T>) {
+            List.prototype.PushRange = function (list) {
                 this.Items.push.apply(this.Items, list);
-            }
+            };
 
-            public Remove(prop:string, value:any):number {
+            List.prototype.Remove = function (prop, value) {
                 var result = this.GetIndex(prop, value);
                 if (result === -1) {
                     return result;
@@ -30,9 +26,9 @@ module TacZ {
                     this.Items.splice(result, 1);
                     return result;
                 }
-            }
+            };
 
-            public RemoveBy(callback:(obj:T) => boolean) {
+            List.prototype.RemoveBy = function (callback) {
                 var result = this.GetIndexBy(callback);
                 if (result === -1) {
                     return result;
@@ -40,49 +36,53 @@ module TacZ {
                     this.Items.splice(result, 1);
                     return result;
                 }
-            }
+            };
 
-            public GetIndex(prop:string, value:any) {
+            List.prototype.GetIndex = function (prop, value) {
                 for (var i = 0; i < this.Items.length; i++) {
                     if (this.Items[i][prop] === value) {
                         return i;
                     }
                 }
                 return -1;
-            }
+            };
 
-            public GetIndexBy(callback:(obj:T) => boolean) {
+            List.prototype.GetIndexBy = function (callback) {
                 for (var i = 0; i < this.Items.length; i++) {
                     if (callback(this.Items[i])) {
                         return i;
                     }
                 }
                 return -1;
-            }
+            };
 
-            public Search(prop:string, value:any):TacZ.Interface.Util.IList<T> {
-                var tmp = new TacZ.Util.List<T>();
-                this.Items.map((item:T) => {
+            List.prototype.Search = function (prop, value) {
+                var tmp = new TacZ.Util.List();
+                this.Items.map(function (item) {
                     if (item[prop] === value) {
                         tmp.Push(item);
                     }
                 });
                 return tmp;
-            }
+            };
 
-            public SearchBy(callback:(obj:T) => boolean):TacZ.Interface.Util.IList<T> {
-                var tmp = new TacZ.Util.List<T>();
-                this.Items.map((item:T) => {
+            List.prototype.SearchBy = function (callback) {
+                var tmp = new TacZ.Util.List();
+                this.Items.map(function (item) {
                     if (callback(item)) {
                         tmp.Push(item);
                     }
                 });
                 return tmp;
-            }
+            };
 
-            public GetItemAtIndex(index:number):T {
+            List.prototype.GetItemAtIndex = function (index) {
                 return this.Items[index];
-            }
-        }
-    }
-}
+            };
+            return List;
+        })();
+        Util.List = List;
+    })(TacZ.Util || (TacZ.Util = {}));
+    var Util = TacZ.Util;
+})(TacZ || (TacZ = {}));
+//# sourceMappingURL=List.js.map

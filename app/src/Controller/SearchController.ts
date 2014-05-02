@@ -4,9 +4,7 @@ module TacZ {
     export module Search {
         export module Controller {
             export class SearchController {
-                public Testing = "Working";
-
-                constructor($scope, RegionLoaderService:TacZ.RegionLoader.Loader) {
+                constructor($scope, RegionLoaderService:TacZ.Service.RegionLoader.Loader) {
                     $scope.vm = this;
                     $scope.vm.neaf = {};
                     RegionLoaderService.Get("neaf").then((data: TacZ.Model.Region)=> {
