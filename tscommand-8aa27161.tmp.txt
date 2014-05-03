@@ -1,1 +1,0 @@
-"/Users/adam/Development/TacticalDayZSearch/app/_app.ts" --removeComments --target ES5 --module amd --out production/app.js
