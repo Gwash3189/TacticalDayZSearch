@@ -49,9 +49,13 @@ module.exports = function (grunt) {
                 files: 'app/style/**/*.css',
                 tasks: ['concat:css']
             },
-            copy: {
+            copyRegion: {
                 files: 'app/src/Region/**',
                 tasks: ['copy:regions']
+            },
+            copyTemplates: {
+                files: 'app/src/Template/**',
+                tasks: ['copy:templates']
             }
         },
         concat: {

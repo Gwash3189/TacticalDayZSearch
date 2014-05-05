@@ -11,7 +11,7 @@ module TacZ {
                 Roads:  TacZ.Interface.Util.IList<TacZ.Interface.Model.IRoad>;
                 Name: string;
                 Description: string;
-                ImgLocation: string;
+                Image: TacZ.Model.TacImage;
                 Validate: (obj: any) => IRegion
             }
         }

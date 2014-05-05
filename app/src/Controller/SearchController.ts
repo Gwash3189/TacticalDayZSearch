@@ -8,6 +8,7 @@ module TacZ {
                     $scope.vm = this;
                     $scope.vm.neaf = {};
                     RegionLoaderService.Get("neaf").then((data: TacZ.Model.Region)=> {
+                        console.log(data.Image);
                         $scope.vm.neaf = data;
                     });
 
