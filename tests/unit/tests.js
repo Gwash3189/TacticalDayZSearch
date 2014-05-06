@@ -3,7 +3,6 @@ angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRoute
     states.List.Items.map(function (state) {
         $stateProvider.state(state);
     });
-
     $urlRouterProvider.otherwise("/");
 });
 var TacZ;

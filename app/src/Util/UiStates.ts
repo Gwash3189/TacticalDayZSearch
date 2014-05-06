@@ -10,7 +10,6 @@ module TacZ {
                     "Template/Search.html",
                     "/",
                     "SearchController"));
-//                this.List.Push(new TacZ.Model.State("results","Results/Results.html", "/results"));
             }
         }
     }
