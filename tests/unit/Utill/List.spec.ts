@@ -6,6 +6,13 @@ describe("List<T>", () => {
         list = new TacZ.Util.List<any>();
     });
 
+    describe("Push", () => {
+        it("Should allow for chaining", () => {
+            expect(list.Push("") instanceof TacZ.Util.List).toBe(true);
+        });
+    });
+
+
     describe("Remove", () => {
         it("Should remove an item by Id", () => {
             list.Push({Id: 1});

@@ -1,41 +1,10 @@
-angular.module("TacZ", []).config(function ($stateProvider, $urlRouterProvider) {
+angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
     var states = new TacZ.States.States();
     states.List.Items.map(function (state) {
         $stateProvider.state(state);
     });
-
     $urlRouterProvider.otherwise("/");
 });
-var TacZ;
-(function (TacZ) {
-    (function (Model) {
-        var State = (function () {
-            function State(name, templateUrl, url) {
-                this.name = name;
-                this.templateUrl = templateUrl;
-                this.url = url;
-            }
-            return State;
-        })();
-        Model.State = State;
-    })(TacZ.Model || (TacZ.Model = {}));
-    var Model = TacZ.Model;
-})(TacZ || (TacZ = {}));
-var TacZ;
-(function (TacZ) {
-    (function (_States) {
-        var States = (function () {
-            function States() {
-                this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("root", "Search/Search.html", "/"));
-                this.List.Push(new TacZ.Model.State("results", "Results/Results.html", "/results"));
-            }
-            return States;
-        })();
-        _States.States = States;
-    })(TacZ.States || (TacZ.States = {}));
-    var States = TacZ.States;
-})(TacZ || (TacZ = {}));
 var TacZ;
 (function (TacZ) {
     (function (Util) {
@@ -49,6 +18,11 @@ var TacZ;
             }
             List.prototype.Push = function (item) {
                 this.Items.push(item);
+                return this;
+            };
+
+            List.prototype.PushRange = function (list) {
+                this.Items.push.apply(this.Items, list);
             };
 
             List.prototype.Remove = function (prop, value) {
@@ -121,6 +95,80 @@ var TacZ;
 var TacZ;
 (function (TacZ) {
     (function (Model) {
+        var Region = (function () {
+            function Region() {
+            }
+            Region.prototype.Validate = function (obj) {
+                if (obj.hasOwnProperty("Id") && obj.hasOwnProperty("Cities") && obj.hasOwnProperty("Buildings") && obj.hasOwnProperty("Roads") && obj.hasOwnProperty("Name") && obj.hasOwnProperty("Description") && obj.hasOwnProperty("Image")) {
+                    this.Id = obj.Id;
+                    this.Cities = obj.Cities;
+                    this.Buildings = obj.Buildings;
+                    this.Roads = obj.Roads;
+                    this.Name = obj.Name;
+                    this.Description = obj.Description;
+                    this.Image = new TacZ.Model.TacImage();
+                }
+                return this;
+            };
+
+            Region.prototype.GetId = function () {
+                return this.Id;
+            };
+
+            Region.prototype.SetId = function (id) {
+                this.Id = id;
+            };
+            return Region;
+        })();
+        Model.Region = Region;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Search) {
+        (function (Controller) {
+            var SearchController = (function () {
+                function SearchController($scope, RegionLoaderService) {
+                    $scope.vm = this;
+                    $scope.vm.neaf = {};
+                    RegionLoaderService.Get("neaf").then(function (data) {
+                        console.log(data.Image);
+                        $scope.vm.neaf = data;
+                    });
+                }
+                return SearchController;
+            })();
+            Controller.SearchController = SearchController;
+        })(Search.Controller || (Search.Controller = {}));
+        var Controller = Search.Controller;
+    })(TacZ.Search || (TacZ.Search = {}));
+    var Search = TacZ.Search;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").controller("SearchController", TacZ.Search.Controller.SearchController);
+var TacZ;
+(function (TacZ) {
+    (function (Definition) {
+        var Regions = (function () {
+            function Regions() {
+                this.List = new TacZ.Util.List();
+                this.List.Push(this.CreateRegion("neaf"));
+            }
+            Regions.prototype.CreateRegion = function (id) {
+                var region = new TacZ.Model.Region();
+                region.SetId(id);
+                return region;
+            };
+            return Regions;
+        })();
+        Definition.Regions = Regions;
+    })(TacZ.Definition || (TacZ.Definition = {}));
+    var Definition = TacZ.Definition;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").constant("Regions", new TacZ.Definition.Regions());
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
         var Building = (function () {
             function Building(Name, Description, Id) {
                 this.Name = Name;
@@ -154,4 +202,172 @@ var TacZ;
         Model.City = City;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Road = (function () {
+            function Road(Name, Description, Buildings, Id) {
+                this.Name = Name;
+                this.Description = Description;
+                this.Buildings = Buildings;
+                this.Id = Id;
+            }
+            return Road;
+        })();
+        Model.Road = Road;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var State = (function () {
+            function State(name, templateUrl, url, controller, resolve) {
+                this.name = name;
+                this.templateUrl = templateUrl;
+                this.url = url;
+                this.controller = controller;
+            }
+            return State;
+        })();
+        Model.State = State;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var TacImage = (function () {
+            function TacImage() {
+                this.Image = new Image();
+            }
+            return TacImage;
+        })();
+        Model.TacImage = TacImage;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Service) {
+        (function (RegionLoader) {
+            var Loader = (function () {
+                function Loader($http, $q, ProxyService) {
+                    this.Location = "Region/";
+                    this.Buildings = "-buildings";
+                    this.Roads = "-roads";
+                    this.Json = ".json";
+                    this.Png = ".png";
+                    this.Map = "-map";
+                    this.FileSeparator = "/";
+                    this.$http = $http;
+                    this.$q = $q;
+                    this.ProxyService = ProxyService;
+                }
+                Loader.prototype.Get = function (region) {
+                    return this.GetRegion(region).then(this.ProxyService.Func(this, this.GetBuildings)).then(this.ProxyService.Func(this, this.GetRoads)).then(this.ProxyService.Func(this, this.GetImage));
+                };
+
+                Loader.prototype.GetRegion = function (region) {
+                    return this.$http.get(this.CreateRegionJsonString(region)).then(function (response) {
+                        return new TacZ.Model.Region().Validate(response.data);
+                    });
+                };
+
+                Loader.prototype.GetImage = function (region) {
+                    if (region.hasOwnProperty("Image") && region.Image) {
+                        var image = new TacZ.Model.TacImage();
+                        image.Image.src = this.CreateRegionPngString(region.GetId());
+                        region.Image = image;
+                        return region;
+                    }
+                };
+
+                Loader.prototype.GetBuildings = function (region) {
+                    var def = this.$q.defer();
+                    if (region.hasOwnProperty("Buildings") && angular.isArray(region.Buildings)) {
+                        this.$http.get(this.CreateRegionBuildingsJsonString(region.GetId())).then(function (response) {
+                            if (response.data.hasOwnProperty("Buildings") && angular.isArray(response.data.Buildings)) {
+                                region.Buildings = new TacZ.Util.List(response.data.Buildings);
+                                def.resolve(region);
+                            }
+                        });
+                    } else {
+                        def.resolve(region);
+                    }
+                    return def.promise;
+                };
+
+                Loader.prototype.GetRoads = function (region) {
+                    var def = this.$q.defer();
+                    if (region.hasOwnProperty("Roads") && angular.isArray(region.Roads)) {
+                        this.$http.get(this.CreateRegionRoadsJsonString(region.GetId())).then(function (response) {
+                            if (response.data.hasOwnProperty("Roads") && angular.isArray(response.data.Roads)) {
+                                region.Roads = new TacZ.Util.List(response.data.Roads);
+                                def.resolve(region);
+                            }
+                        });
+                    } else {
+                        def.resolve(region);
+                    }
+                    return def.promise;
+                };
+
+                Loader.prototype.CreateRegionJsonString = function (region) {
+                    return this.Location + region + this.FileSeparator + region + this.Json;
+                };
+
+                Loader.prototype.CreateRegionBuildingsJsonString = function (region) {
+                    return this.Location + region + this.FileSeparator + region + this.Buildings + this.Json;
+                };
+
+                Loader.prototype.CreateRegionRoadsJsonString = function (region) {
+                    return this.Location + region + this.FileSeparator + region + this.Roads + this.Json;
+                };
+
+                Loader.prototype.CreateRegionPngString = function (region) {
+                    return this.Location + region + this.FileSeparator + region + this.Map + this.Png;
+                };
+                return Loader;
+            })();
+            RegionLoader.Loader = Loader;
+        })(Service.RegionLoader || (Service.RegionLoader = {}));
+        var RegionLoader = Service.RegionLoader;
+    })(TacZ.Service || (TacZ.Service = {}));
+    var Service = TacZ.Service;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").service("RegionLoaderService", TacZ.Service.RegionLoader.Loader);
+var TacZ;
+(function (TacZ) {
+    (function (Service) {
+        var Proxy = (function () {
+            function Proxy() {
+            }
+            Proxy.prototype.Func = function (context, func) {
+                return function () {
+                    return func.apply(context, arguments);
+                };
+            };
+            return Proxy;
+        })();
+        Service.Proxy = Proxy;
+    })(TacZ.Service || (TacZ.Service = {}));
+    var Service = TacZ.Service;
+})(TacZ || (TacZ = {}));
+
+angular.module("TacZ").service("ProxyService", TacZ.Service.Proxy);
+var TacZ;
+(function (TacZ) {
+    (function (_States) {
+        var States = (function () {
+            function States() {
+                this.List = new TacZ.Util.List();
+                this.List.Push(new TacZ.Model.State("root", "Template/Search.html", "/", "SearchController"));
+            }
+            return States;
+        })();
+        _States.States = States;
+    })(TacZ.States || (TacZ.States = {}));
+    var States = TacZ.States;
 })(TacZ || (TacZ = {}));

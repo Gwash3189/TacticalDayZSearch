@@ -1,7 +1,10 @@
 {
-	"Buildings": [],
-	"Name": "",
-	"Description": "",
-	"Location": "",
-	"Id": "neaf"
+    "Buildings": [],
+    "Cities": [],
+    "Roads": [],
+    "Name": "",
+    "Description": "",
+    "Location": "",
+    "Image": "",
+    "Id": "neaf"
 }

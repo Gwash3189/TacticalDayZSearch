@@ -15,6 +15,11 @@ module TacZ {
 
             public Push(item:T) {
                 this.Items.push(item);
+                return this;
+            }
+
+            public PushRange(list:Array<T>) {
+                this.Items.push.apply(this.Items, list);
             }
 
             public Remove(prop:string, value:any):number {

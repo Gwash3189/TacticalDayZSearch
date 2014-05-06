@@ -2,6 +2,7 @@ module.exports = function (grunt) {
 
     // load the task 
     grunt.loadNpmTasks("grunt-typescript");
+    grunt.loadNpmTasks("grunt-ts");
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -10,36 +11,36 @@ module.exports = function (grunt) {
     // Configure grunt here
 
     grunt.initConfig({
-        typescript: {
+        ts: {
             base: {
-                src: ['app/_app.ts','app/src/**/*.ts'],
-                dest: 'production/app.js',
+                src: ['app/_app.ts', 'app/src/**/*.ts'],
+                out: 'production/app.js',
+                reference: 'app/_app.ts',
                 options: {
-                    target: 'es5', //IE 9 or greater
-                    sourceMap: false,
-                    declaration: false
+                    target: 'es5',
+                    sourcemap: false
                 }
             },
             unit: {
                 src: ['tests/unit/**/*.spec.ts'],
-                dest: 'tests/unit/tests.js',
+                out: 'tests/unit/tests.js',
                 options: {
                     target: 'es5', //IE 9 or greater
-                    sourceMap: true
+                    sourcemap: true
                 }
             }
         },
         watch: {
             ts: {
                 files: 'app/**/*.ts',
-                tasks: ['typescript', 'karma'],
+                tasks: ['ts', 'karma'],
                 options: {
                     interrupt: true
                 }
             },
             tests: {
                 files: 'tests/**/*.ts',
-                tasks: ['typescript','karma'],
+                tasks: ['ts', 'karma'],
                 options: {
                     interrupt: true
                 }
@@ -48,9 +49,13 @@ module.exports = function (grunt) {
                 files: 'app/style/**/*.css',
                 tasks: ['concat:css']
             },
-            copy: {
+            copyRegion: {
                 files: 'app/src/Region/**',
                 tasks: ['copy:regions']
+            },
+            copyTemplates: {
+                files: 'app/src/Template/**',
+                tasks: ['copy:templates']
             }
         },
         concat: {
@@ -69,6 +74,12 @@ module.exports = function (grunt) {
                 src: '**',
                 dest: 'production/Region/',
                 cwd: "app/src/Region/",
+                expand: true
+            },
+            templates: {
+                src: '*.html',
+                dest: 'production/Template/',
+                cwd: 'app/src/Template',
                 expand: true
             }
         }
