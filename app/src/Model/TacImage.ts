@@ -2,10 +2,11 @@
 
 module TacZ {
     export module Model {
-        export class TacImage implements TacZ.Interface.Model.ITacImage {
+        export class TacImage extends Base implements TacZ.Interface.Model.ITacImage {
             public Image:HTMLImageElement;
 
             constructor() {
+                super();
                 this.Image = new Image();
             }
         }

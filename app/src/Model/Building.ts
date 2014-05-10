@@ -2,9 +2,15 @@
 
 module TacZ {
     export module Model {
-        export class Building implements TacZ.Interface.Model.IBuilding{
-            constructor(public Name:string, public Description:string, private Id: number) {
+        export class Building extends TacZ.Model.Base implements TacZ.Interface.Model.IBuilding {
+            public Name:string = "";
+            public Description:string = "";
+            private Id:number = -1;
+
+            constructor() {
+                super();
             }
+
 
             public GetId() {
                 return this.Id;

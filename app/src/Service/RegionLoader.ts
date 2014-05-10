@@ -32,7 +32,11 @@ module TacZ {
                 private GetRegion(region:string):any {
                     return this.$http.get(this.CreateRegionJsonString(region))
                         .then((response) => {
-                            return new TacZ.Model.Region().Validate(response.data);
+                            var region = new TacZ.Model.Region();
+                            if(region.Validate(response.data)){
+                                region.Assign(response.data);
+                            }
+                            return region;
                         });
                 }
 

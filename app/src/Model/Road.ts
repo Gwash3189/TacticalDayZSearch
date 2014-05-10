@@ -2,8 +2,14 @@
 
 module TacZ {
     export module Model {
-        export class Road implements TacZ.Interface.Model.IRoad {
-            constructor(public Name:string, public Description:string, public Buildings:TacZ.Interface.Util.IList<TacZ.Interface.Model.IBuilding>, private Id:number) {
+        export class Road extends TacZ.Model.Base implements TacZ.Interface.Model.IRoad {
+            public Name = "";
+            public Description = "";
+            public Buildings = new TacZ.Util.List<TacZ.Interface.Model.IBuilding>();
+            private Id = -1;
+
+            constructor() {
+                super()
             }
         }
     }
