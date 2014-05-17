@@ -4,8 +4,13 @@ module TacZ {
     export module Controller {
         export module Search {
             export class ResultsController {
-                constructor($scope) {
+                Region:TacZ.Model.Region;
+
+                constructor($scope, $stateParams, RegionLoaderService:TacZ.Service.RegionLoader.Loader) {
                     $scope.vm = this;
+                    RegionLoaderService.Get($stateParams.rid).then((data:TacZ.Model.Region)=> {
+                        this.Region = data;
+                    });
                 }
             }
         }

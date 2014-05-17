@@ -4,13 +4,8 @@ module TacZ {
     export module Controller {
         export module Search {
             export class SearchController{
-                constructor($scope, RegionLoaderService:TacZ.Service.RegionLoader.Loader) {
+                constructor($scope) {
                     $scope.vm = this;
-                    $scope.vm.neaf = {};
-                    RegionLoaderService.Get("neaf").then((data:TacZ.Model.Region)=> {
-                        console.log(data.Image);
-                        $scope.vm.neaf = data;
-                    });
 
                 }
             }

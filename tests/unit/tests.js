@@ -151,8 +151,12 @@ var TacZ;
     (function (Controller) {
         (function (Search) {
             var ResultsController = (function () {
-                function ResultsController($scope) {
+                function ResultsController($scope, $stateParams, RegionLoaderService) {
+                    var _this = this;
                     $scope.vm = this;
+                    RegionLoaderService.Get($stateParams.rid).then(function (data) {
+                        _this.Region = data;
+                    });
                 }
                 return ResultsController;
             })();
@@ -168,13 +172,8 @@ var TacZ;
     (function (Controller) {
         (function (Search) {
             var SearchController = (function () {
-                function SearchController($scope, RegionLoaderService) {
+                function SearchController($scope) {
                     $scope.vm = this;
-                    $scope.vm.neaf = {};
-                    RegionLoaderService.Get("neaf").then(function (data) {
-                        console.log(data.Image);
-                        $scope.vm.neaf = data;
-                    });
                 }
                 return SearchController;
             })();
