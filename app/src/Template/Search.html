@@ -1,4 +1,9 @@
-<div>
-    {{vm.neaf}}
-    <img ng-src="{{vm.neaf.Image.Image.src}}" alt=""/>
+<div class="row" ng-controller="FrequentlySearchedController">
+    <div class="col-xs-12">
+        <ul class="frequently-searched-list list-unstyled">
+            <li ng-repeat="region in vm.FrequentlySearchedList.Items">
+                <a ui-sref="Results({region: region.Id})">{{region.Name}}</a>
+            </li>
+        </ul>
+    </div>
 </div>

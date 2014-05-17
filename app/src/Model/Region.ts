@@ -12,6 +12,11 @@ module TacZ {
             public Description:string;
             public Image: TacZ.Model.TacImage;
 
+            constructor(Name?:string, Id?: string){
+                this.Name = Name;
+                this.Id = Id;
+            }
+
             public Validate(obj:any):TacZ.Interface.Model.IRegion {
                 if (obj.hasOwnProperty("Id") && obj.hasOwnProperty("Cities")
                     && obj.hasOwnProperty("Buildings") && obj.hasOwnProperty("Roads")
