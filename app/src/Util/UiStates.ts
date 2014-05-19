@@ -8,8 +8,7 @@ module TacZ {
             constructor() {
                 this.List
                     .Push(new TacZ.Model.State("Search","/"))
-                    .Push(new TacZ.Model.State("Results", '/Results/:rid'));
-
+                    .Push(new TacZ.Model.State("Search.Results", 'Results/:rid'));
             }
         }
     }

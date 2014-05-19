@@ -48,9 +48,13 @@ module.exports = function (grunt) {
                 files: 'app/style/**/*.css',
                 tasks: ['concat:css']
             },
-            copyRegion: {
-                files: 'app/src/Region/**',
-                tasks: ['copy:regionsJson', 'copy:regionsImg']
+            copyRegionJson: {
+                files: 'app/src/Region/**/*.json',
+                tasks: ['copy:regionsJson']
+            },
+            copyRegionImg: {
+                files: 'app/src/Region/**/*.png',
+                tasks: ['copy:regionsImg']
             },
             copyTemplates: {
                 files: 'app/src/Template/**',
@@ -70,13 +74,13 @@ module.exports = function (grunt) {
         },
         copy: {
             regionsJson: {
-                src: '*.json',
+                src: '**/*.json',
                 dest: 'production/Region/',
                 cwd: "app/src/Region/",
                 expand: true
             },
             regionsImg: {
-                src: '*.png',
+                src: '**/*.png',
                 dest: 'production/Region/',
                 cwd: "app/src/Region/",
                 expand: true

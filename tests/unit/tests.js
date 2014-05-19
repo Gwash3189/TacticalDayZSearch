@@ -7,6 +7,19 @@ angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRoute
 });
 var TacZ;
 (function (TacZ) {
+    (function (Util) {
+        var String = (function () {
+            function String() {
+            }
+            String.Empty = "";
+            return String;
+        })();
+        Util.String = String;
+    })(TacZ.Util || (TacZ.Util = {}));
+    var Util = TacZ.Util;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
     (function (Model) {
         var Base = (function () {
             function Base() {
@@ -168,15 +181,15 @@ var TacZ;
             __extends(Region, _super);
             function Region(Name, Id) {
                 _super.call(this);
-                this.Id = "";
+                this.Id = TacZ.Util.String.Empty;
                 this.Cities = new TacZ.Util.List();
                 this.Buildings = new TacZ.Util.List();
                 this.Roads = new TacZ.Util.List();
-                this.Name = "";
-                this.Description = "";
+                this.Name = TacZ.Util.String.Empty;
+                this.Description = TacZ.Util.String.Empty;
                 this.Image = new TacZ.Model.TacImage();
-                this.Name = Name;
-                this.Id = Id;
+                this.Name = Name || this.Name;
+                this.Id = Id || this.Id;
             }
             Region.prototype.GetId = function () {
                 return this.Id;
@@ -342,9 +355,24 @@ var TacZ;
                 this.url = Route;
                 this.controller = this.MakeFirstLetterUpperCase(this.name);
                 this.resolve = resolve;
+                this.parent = this.GetParentFromName(this.name);
             }
-            State.prototype.MakeFirstLetterUpperCase = function (thing) {
-                return thing.substr(0, 1).toUpperCase() + thing.substr(1, thing.length) + this.ControllerSuffix;
+            State.prototype.GetParentFromName = function (name) {
+                var result = name.split(".")[0];
+                if (result === name) {
+                    return undefined;
+                }
+                return result;
+            };
+
+            State.prototype.GetChildFromName = function (name) {
+                var split = name.split(".");
+                return split[split.length - 1];
+            };
+
+            State.prototype.MakeFirstLetterUpperCase = function (name) {
+                var controllerName = this.GetChildFromName(name);
+                return controllerName.substr(0, 1).toUpperCase() + controllerName.substr(1, controllerName.length) + this.ControllerSuffix;
             };
             return State;
         })();
@@ -471,7 +499,7 @@ var TacZ;
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("Search", "/")).Push(new TacZ.Model.State("Results", '/Results/:rid'));
+                this.List.Push(new TacZ.Model.State("Search", "/")).Push(new TacZ.Model.State("Search.Results", 'Results/:rid'));
             }
             return States;
         })();

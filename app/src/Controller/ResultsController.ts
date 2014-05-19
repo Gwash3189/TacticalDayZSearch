@@ -9,7 +9,6 @@ module TacZ {
                     $scope.vm = this;
                     RegionLoaderService.Get($stateParams.rid).then((data:TacZ.Model.Region)=> {
                         this.Region = data;
-
                     });
                 }
             }

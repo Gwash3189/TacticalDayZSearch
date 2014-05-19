@@ -1,5 +1,6 @@
 ///<reference path='../typings/tsd.d.ts' />
 /// <reference path="src/app.ts" />
+/// <reference path="src/Util/String.ts" />
 /// <reference path="src/Model/Base.ts" />
 /// <reference path="src/Util/List.ts" />
 /// <reference path="src/Model/TacImage.ts" />

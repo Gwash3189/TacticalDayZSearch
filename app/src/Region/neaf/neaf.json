@@ -4,7 +4,10 @@
     "Roads": [],
     "Name": "North East Air Field",
     "Description": "Stuff and Things",
-    "Location": "",
-    "Image": "",
+    "Image": {
+        "Image": {
+            "src": ""
+        }
+    },
     "Id": "neaf"
 }
