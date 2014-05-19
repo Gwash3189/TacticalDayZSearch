@@ -1,15 +1,13 @@
 ///<reference path="../../_app.ts" />
 module TacZ {
     export module Util {
-        export class List<T> implements TacZ.Interface.Util.IList<T> {
-            public Items:Array<T>;
+        export class List<T> extends TacZ.Model.Base implements TacZ.Interface.Util.IList<T> {
+            public Items = new Array<T>();
 
             constructor(list?:Array<T>) {
+                super();
                 if (list) {
                     this.Items = list;
-                }
-                else {
-                    this.Items = new Array<T>();
                 }
             }
 

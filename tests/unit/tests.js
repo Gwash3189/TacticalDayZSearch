@@ -7,13 +7,67 @@ angular.module("TacZ", ['ui.router']).config(function ($stateProvider, $urlRoute
 });
 var TacZ;
 (function (TacZ) {
+    (function (Model) {
+        var Base = (function () {
+            function Base() {
+            }
+            Base.prototype.Validate = function (info) {
+                var results = [];
+                for (var key in info) {
+                    if (key !== "constructor" && typeof info[key] !== "function") {
+                        if (this.Evaluate && typeof this.Evaluate === "function") {
+                            if (this.hasOwnProperty(key)) {
+                                results.push(this.Evaluate(info, key));
+                            } else {
+                                results.push(false);
+                            }
+                        } else {
+                            results.push(true);
+                        }
+                    }
+                }
+                return results.indexOf(false) <= -1;
+            };
+
+            Base.prototype.Assign = function (info) {
+                for (var key in info) {
+                    if (this.hasOwnProperty(key)) {
+                        this[key] = info[key];
+                    }
+                }
+            };
+
+            Base.prototype.Evaluate = function (objectToCompare, toComparekey) {
+                if (objectToCompare[toComparekey] instanceof Array && this[toComparekey] instanceof Array) {
+                    return true;
+                }
+                if (typeof this[toComparekey] === "object" && typeof objectToCompare[toComparekey] === "object") {
+                    return this.Validate.call(this[toComparekey], objectToCompare[toComparekey]);
+                }
+                return typeof this[toComparekey] === typeof objectToCompare[toComparekey];
+            };
+            return Base;
+        })();
+        Model.Base = Base;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var TacZ;
+(function (TacZ) {
     (function (Util) {
-        var List = (function () {
+        var List = (function (_super) {
+            __extends(List, _super);
             function List(list) {
+                _super.call(this);
+                this.Items = new Array();
                 if (list) {
                     this.Items = list;
-                } else {
-                    this.Items = new Array();
                 }
             }
             List.prototype.Push = function (item) {
@@ -87,7 +141,7 @@ var TacZ;
                 return this.Items[index];
             };
             return List;
-        })();
+        })(TacZ.Model.Base);
         Util.List = List;
     })(TacZ.Util || (TacZ.Util = {}));
     var Util = TacZ.Util;
@@ -95,24 +149,33 @@ var TacZ;
 var TacZ;
 (function (TacZ) {
     (function (Model) {
-        var Region = (function () {
-            function Region(Name, Id) {
-                this.Name = Name;
-                this.Id = Id;
+        var TacImage = (function (_super) {
+            __extends(TacImage, _super);
+            function TacImage() {
+                _super.call(this);
+                this.Image = new Image();
             }
-            Region.prototype.Validate = function (obj) {
-                if (obj.hasOwnProperty("Id") && obj.hasOwnProperty("Cities") && obj.hasOwnProperty("Buildings") && obj.hasOwnProperty("Roads") && obj.hasOwnProperty("Name") && obj.hasOwnProperty("Description") && obj.hasOwnProperty("Image")) {
-                    this.Id = obj.Id;
-                    this.Cities = obj.Cities;
-                    this.Buildings = obj.Buildings;
-                    this.Roads = obj.Roads;
-                    this.Name = obj.Name;
-                    this.Description = obj.Description;
-                    this.Image = new TacZ.Model.TacImage();
-                }
-                return this;
-            };
-
+            return TacImage;
+        })(Model.Base);
+        Model.TacImage = TacImage;
+    })(TacZ.Model || (TacZ.Model = {}));
+    var Model = TacZ.Model;
+})(TacZ || (TacZ = {}));
+var TacZ;
+(function (TacZ) {
+    (function (Model) {
+        var Region = (function (_super) {
+            __extends(Region, _super);
+            function Region() {
+                _super.call(this);
+                this.Id = "";
+                this.Cities = new TacZ.Util.List();
+                this.Buildings = new TacZ.Util.List();
+                this.Roads = new TacZ.Util.List();
+                this.Name = "";
+                this.Description = "";
+                this.Image = new TacZ.Model.TacImage();
+            }
             Region.prototype.GetId = function () {
                 return this.Id;
             };
@@ -121,103 +184,69 @@ var TacZ;
                 this.Id = id;
             };
             return Region;
-        })();
+        })(TacZ.Model.Base);
         Model.Region = Region;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
 })(TacZ || (TacZ = {}));
 var TacZ;
 (function (TacZ) {
-    (function (Controller) {
-        (function (Search) {
-            var FrequentlySearchedController = (function () {
-                function FrequentlySearchedController($scope) {
-                    this.FrequentlySearchedList = new TacZ.Util.List([
-                        new TacZ.Model.Region("North East Air Field", "neaf")
-                    ]);
-                    $scope.vm = this;
-                }
-                return FrequentlySearchedController;
-            })();
-            Search.FrequentlySearchedController = FrequentlySearchedController;
-        })(Controller.Search || (Controller.Search = {}));
-        var Search = Controller.Search;
-    })(TacZ.Controller || (TacZ.Controller = {}));
-    var Controller = TacZ.Controller;
-})(TacZ || (TacZ = {}));
-angular.module("TacZ").controller("FrequentlySearchedController", TacZ.Controller.Search.FrequentlySearchedController);
-var TacZ;
-(function (TacZ) {
-    (function (Controller) {
-        (function (Search) {
-            var ResultsController = (function () {
-                function ResultsController($scope, $stateParams, RegionLoaderService) {
-                    var _this = this;
-                    $scope.vm = this;
-                    RegionLoaderService.Get($stateParams.rid).then(function (data) {
-                        _this.Region = data;
-                    });
-                }
-                return ResultsController;
-            })();
-            Search.ResultsController = ResultsController;
-        })(Controller.Search || (Controller.Search = {}));
-        var Search = Controller.Search;
-    })(TacZ.Controller || (TacZ.Controller = {}));
-    var Controller = TacZ.Controller;
-})(TacZ || (TacZ = {}));
-angular.module("TacZ").controller("ResultsController", TacZ.Controller.Search.ResultsController);
-var TacZ;
-(function (TacZ) {
-    (function (Controller) {
-        (function (Search) {
+    (function (Search) {
+        (function (Controller) {
             var SearchController = (function () {
-                function SearchController($scope) {
+                function SearchController($scope, RegionLoaderService) {
                     $scope.vm = this;
+                    $scope.vm.neaf = {};
+                    RegionLoaderService.Get("neaf").then(function (data) {
+                        console.log(data.Image);
+                        $scope.vm.neaf = data;
+                    });
                 }
                 return SearchController;
             })();
-            Search.SearchController = SearchController;
-        })(Controller.Search || (Controller.Search = {}));
-        var Search = Controller.Search;
-    })(TacZ.Controller || (TacZ.Controller = {}));
-    var Controller = TacZ.Controller;
+            Controller.SearchController = SearchController;
+        })(Search.Controller || (Search.Controller = {}));
+        var Controller = Search.Controller;
+    })(TacZ.Search || (TacZ.Search = {}));
+    var Search = TacZ.Search;
 })(TacZ || (TacZ = {}));
-angular.module("TacZ").controller("SearchController", TacZ.Controller.Search.SearchController);
+angular.module("TacZ").controller("SearchController", TacZ.Search.Controller.SearchController);
 var TacZ;
 (function (TacZ) {
     (function (Definition) {
-        var Regions = (function () {
-            function Regions() {
+        var RegionsDefinition = (function () {
+            function RegionsDefinition() {
                 this.List = new TacZ.Util.List();
                 this.List.Push(this.CreateRegion("neaf"));
             }
-            Regions.prototype.CreateRegion = function (id) {
+            RegionsDefinition.prototype.CreateRegion = function (id) {
                 var region = new TacZ.Model.Region();
                 region.SetId(id);
                 return region;
             };
-            return Regions;
+            return RegionsDefinition;
         })();
-        Definition.Regions = Regions;
+        Definition.RegionsDefinition = RegionsDefinition;
     })(TacZ.Definition || (TacZ.Definition = {}));
     var Definition = TacZ.Definition;
 })(TacZ || (TacZ = {}));
-angular.module("TacZ").constant("Regions", new TacZ.Definition.Regions());
+angular.module("TacZ").constant("RegionsDefinition", new TacZ.Definition.RegionsDefinition());
 var TacZ;
 (function (TacZ) {
     (function (Model) {
-        var Building = (function () {
-            function Building(Name, Description, Id) {
-                this.Name = Name;
-                this.Description = Description;
-                this.Id = Id;
+        var Building = (function (_super) {
+            __extends(Building, _super);
+            function Building() {
+                _super.call(this);
+                this.Name = "";
+                this.Description = "";
+                this.Id = -1;
             }
             Building.prototype.GetId = function () {
                 return this.Id;
             };
             return Building;
-        })();
+        })(TacZ.Model.Base);
         Model.Building = Building;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
@@ -225,18 +254,19 @@ var TacZ;
 var TacZ;
 (function (TacZ) {
     (function (Model) {
-        var City = (function () {
-            function City(Name, Description, Buildings, Id) {
-                this.Name = Name;
-                this.Description = Description;
-                this.Buildings = Buildings;
-                this.Id = Id;
+        var City = (function (_super) {
+            __extends(City, _super);
+            function City() {
+                _super.call(this);
+                this.Name = "";
+                this.Description = "";
+                this.Id = -1;
             }
             City.prototype.GetId = function () {
                 return this.Id;
             };
             return City;
-        })();
+        })(TacZ.Model.Base);
         Model.City = City;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
@@ -244,15 +274,17 @@ var TacZ;
 var TacZ;
 (function (TacZ) {
     (function (Model) {
-        var Road = (function () {
-            function Road(Name, Description, Buildings, Id) {
-                this.Name = Name;
-                this.Description = Description;
-                this.Buildings = Buildings;
-                this.Id = Id;
+        var Road = (function (_super) {
+            __extends(Road, _super);
+            function Road() {
+                _super.call(this);
+                this.Name = "";
+                this.Description = "";
+                this.Buildings = new TacZ.Util.List();
+                this.Id = -1;
             }
             return Road;
-        })();
+        })(TacZ.Model.Base);
         Model.Road = Road;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
@@ -261,36 +293,15 @@ var TacZ;
 (function (TacZ) {
     (function (Model) {
         var State = (function () {
-            function State(Name, Route, resolve) {
-                this.TemplateLocation = "Template";
-                this.TemplateFileExtension = ".html";
-                this.TemplateFilePathSeperator = "/";
-                this.ControllerSuffix = "Controller";
-                this.name = Name;
-                this.templateUrl = this.TemplateLocation + this.TemplateFilePathSeperator + this.name + this.TemplateFileExtension;
-                this.url = Route;
-                this.controller = this.MakeFirstLetterUpperCase(this.name);
-                this.resolve = resolve;
+            function State(name, templateUrl, url, controller, resolve) {
+                this.name = name;
+                this.templateUrl = templateUrl;
+                this.url = url;
+                this.controller = controller;
             }
-            State.prototype.MakeFirstLetterUpperCase = function (thing) {
-                return thing.substr(0, 1).toUpperCase() + thing.substr(1, thing.length) + this.ControllerSuffix;
-            };
             return State;
         })();
         Model.State = State;
-    })(TacZ.Model || (TacZ.Model = {}));
-    var Model = TacZ.Model;
-})(TacZ || (TacZ = {}));
-var TacZ;
-(function (TacZ) {
-    (function (Model) {
-        var TacImage = (function () {
-            function TacImage() {
-                this.Image = new Image();
-            }
-            return TacImage;
-        })();
-        Model.TacImage = TacImage;
     })(TacZ.Model || (TacZ.Model = {}));
     var Model = TacZ.Model;
 })(TacZ || (TacZ = {}));
@@ -317,7 +328,11 @@ var TacZ;
 
                 Loader.prototype.GetRegion = function (region) {
                     return this.$http.get(this.CreateRegionJsonString(region)).then(function (response) {
-                        return new TacZ.Model.Region().Validate(response.data);
+                        var region = new TacZ.Model.Region();
+                        if (region.Validate(response.data)) {
+                            region.Assign(response.data);
+                        }
+                        return region;
                     });
                 };
 
@@ -409,7 +424,7 @@ var TacZ;
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("Search", "/")).Push(new TacZ.Model.State("Results", '/Results/:rid'));
+                this.List.Push(new TacZ.Model.State("root", "Template/Search.html", "/", "SearchController"));
             }
             return States;
         })();
@@ -423,14 +438,46 @@ describe("States", function () {
         state = new TacZ.States.States();
     });
 });
-describe("FrequentlySearchedController", function () {
-    var fSController;
-    beforeEach(function () {
-        fSController = new TacZ.Controller.Search.FrequentlySearchedController({});
+describe("Base Model", function () {
+    describe("Validate", function () {
+        var City;
+        var Region;
+        beforeEach(function () {
+            City = new TacZ.Model.City();
+            Region = new TacZ.Model.Region();
+        });
+
+        it("Should return true when an object, with the same properties is passed in", function () {
+            var city = new TacZ.Model.City();
+            expect(City.Validate(city)).toBe(true);
+        });
+
+        it("Should return false when an object without the same properties is passed in", function () {
+            var any = { id: "STRING" };
+            expect(City.Validate(any)).toBe(false);
+        });
+
+        it("Should also validate nested objects", function () {
+            var reg = new TacZ.Model.Region();
+            expect(Region.Validate(reg)).toBe(true);
+        });
     });
 
-    it("Should have a list of Frequently Searched Regions", function () {
-        expect(fSController.FrequentlySearchedList).toBeTruthy();
+    describe("Assign", function () {
+        var City;
+
+        beforeEach(function () {
+            City = new TacZ.Model.City();
+        });
+        it("Should assign all keys in the passed in object to the calling object", function () {
+            var value = new TacZ.Model.City();
+            var Desc = "Desc";
+            value.Description = Desc;
+
+            City.Assign(value);
+
+            expect(City.Description).toEqual("Desc");
+        });
     });
 });
 describe("List<T>", function () {

@@ -2,7 +2,7 @@
 
 module TacZ {
     export module Definition {
-        export class Regions{
+        export class RegionsDefinition{
             public List = new TacZ.Util.List<TacZ.Interface.Model.IRegion>();
 
             constructor(){
@@ -18,4 +18,4 @@ module TacZ {
         }
     }
 }
-angular.module("TacZ").constant("Regions", new TacZ.Definition.Regions());
+angular.module("TacZ").constant("RegionsDefinition", new TacZ.Definition.RegionsDefinition());
