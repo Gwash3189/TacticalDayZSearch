@@ -6,10 +6,10 @@ module TacZ {
             public List = new TacZ.Util.List<TacZ.Model.State>();
 
             constructor() {
-                this.List.Push(new TacZ.Model.State("root",
-                    "Template/Search.html",
-                    "/",
-                    "SearchController"));
+                this.List
+                    .Push(new TacZ.Model.State("Search","/"))
+                    .Push(new TacZ.Model.State("Results", '/Results/:rid'));
+
             }
         }
     }

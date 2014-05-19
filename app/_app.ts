@@ -4,6 +4,8 @@
 /// <reference path="src/Model/Region.ts" />
 
 //grunt-start
+/// <reference path="src/Controller/FrequentlySearchedController.ts" />
+/// <reference path="src/Controller/ResultsController.ts" />
 /// <reference path="src/Controller/SearchController.ts" />
 /// <reference path="src/Definition/Region.ts" />
 /// <reference path="src/Interface/Model/IBuilding.ts" />
