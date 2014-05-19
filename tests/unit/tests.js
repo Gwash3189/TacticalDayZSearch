@@ -166,7 +166,7 @@ var TacZ;
     (function (Model) {
         var Region = (function (_super) {
             __extends(Region, _super);
-            function Region() {
+            function Region(Name, Id) {
                 _super.call(this);
                 this.Id = "";
                 this.Cities = new TacZ.Util.List();
@@ -175,6 +175,8 @@ var TacZ;
                 this.Name = "";
                 this.Description = "";
                 this.Image = new TacZ.Model.TacImage();
+                this.Name = Name;
+                this.Id = Id;
             }
             Region.prototype.GetId = function () {
                 return this.Id;
@@ -191,26 +193,63 @@ var TacZ;
 })(TacZ || (TacZ = {}));
 var TacZ;
 (function (TacZ) {
-    (function (Search) {
-        (function (Controller) {
-            var SearchController = (function () {
-                function SearchController($scope, RegionLoaderService) {
+    (function (Controller) {
+        (function (Search) {
+            var FrequentlySearchedController = (function () {
+                function FrequentlySearchedController($scope) {
+                    this.FrequentlySearchedList = new TacZ.Util.List([
+                        new TacZ.Model.Region("North East Air Field", "neaf")
+                    ]);
                     $scope.vm = this;
-                    $scope.vm.neaf = {};
-                    RegionLoaderService.Get("neaf").then(function (data) {
-                        console.log(data.Image);
-                        $scope.vm.neaf = data;
+                }
+                return FrequentlySearchedController;
+            })();
+            Search.FrequentlySearchedController = FrequentlySearchedController;
+        })(Controller.Search || (Controller.Search = {}));
+        var Search = Controller.Search;
+    })(TacZ.Controller || (TacZ.Controller = {}));
+    var Controller = TacZ.Controller;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").controller("FrequentlySearchedController", TacZ.Controller.Search.FrequentlySearchedController);
+var TacZ;
+(function (TacZ) {
+    (function (Controller) {
+        (function (Search) {
+            var ResultsController = (function () {
+                function ResultsController($scope, $stateParams, RegionLoaderService) {
+                    var _this = this;
+                    this.Region = new TacZ.Model.Region();
+                    $scope.vm = this;
+                    RegionLoaderService.Get($stateParams.rid).then(function (data) {
+                        _this.Region = data;
                     });
+                }
+                return ResultsController;
+            })();
+            Search.ResultsController = ResultsController;
+        })(Controller.Search || (Controller.Search = {}));
+        var Search = Controller.Search;
+    })(TacZ.Controller || (TacZ.Controller = {}));
+    var Controller = TacZ.Controller;
+})(TacZ || (TacZ = {}));
+angular.module("TacZ").controller("ResultsController", TacZ.Controller.Search.ResultsController);
+var TacZ;
+(function (TacZ) {
+    (function (Controller) {
+        (function (Search) {
+            var SearchController = (function () {
+                function SearchController($scope) {
+                    $scope.vm = this;
                 }
                 return SearchController;
             })();
-            Controller.SearchController = SearchController;
-        })(Search.Controller || (Search.Controller = {}));
-        var Controller = Search.Controller;
-    })(TacZ.Search || (TacZ.Search = {}));
-    var Search = TacZ.Search;
+            Search.SearchController = SearchController;
+        })(Controller.Search || (Controller.Search = {}));
+        var Search = Controller.Search;
+    })(TacZ.Controller || (TacZ.Controller = {}));
+    var Controller = TacZ.Controller;
 })(TacZ || (TacZ = {}));
-angular.module("TacZ").controller("SearchController", TacZ.Search.Controller.SearchController);
+angular.module("TacZ").controller("SearchController", TacZ.Controller.Search.SearchController);
 var TacZ;
 (function (TacZ) {
     (function (Definition) {
@@ -293,12 +332,20 @@ var TacZ;
 (function (TacZ) {
     (function (Model) {
         var State = (function () {
-            function State(name, templateUrl, url, controller, resolve) {
-                this.name = name;
-                this.templateUrl = templateUrl;
-                this.url = url;
-                this.controller = controller;
+            function State(Name, Route, resolve) {
+                this.TemplateLocation = "Template";
+                this.TemplateFileExtension = ".html";
+                this.TemplateFilePathSeperator = "/";
+                this.ControllerSuffix = "Controller";
+                this.name = Name;
+                this.templateUrl = this.TemplateLocation + this.TemplateFilePathSeperator + this.name + this.TemplateFileExtension;
+                this.url = Route;
+                this.controller = this.MakeFirstLetterUpperCase(this.name);
+                this.resolve = resolve;
             }
+            State.prototype.MakeFirstLetterUpperCase = function (thing) {
+                return thing.substr(0, 1).toUpperCase() + thing.substr(1, thing.length) + this.ControllerSuffix;
+            };
             return State;
         })();
         Model.State = State;
@@ -424,7 +471,7 @@ var TacZ;
         var States = (function () {
             function States() {
                 this.List = new TacZ.Util.List();
-                this.List.Push(new TacZ.Model.State("root", "Template/Search.html", "/", "SearchController"));
+                this.List.Push(new TacZ.Model.State("Search", "/")).Push(new TacZ.Model.State("Results", '/Results/:rid'));
             }
             return States;
         })();
@@ -436,6 +483,16 @@ describe("States", function () {
     var state;
     beforeEach(function () {
         state = new TacZ.States.States();
+    });
+});
+describe("FrequentlySearchedController", function () {
+    var fSController;
+    beforeEach(function () {
+        fSController = new TacZ.Controller.Search.FrequentlySearchedController({});
+    });
+
+    it("Should have a list of Frequently Searched Regions", function () {
+        expect(fSController.FrequentlySearchedList).toBeTruthy();
     });
 });
 describe("Base Model", function () {

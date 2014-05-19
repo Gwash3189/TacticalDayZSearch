@@ -1,8 +1,8 @@
 <div class="row" ng-controller="FrequentlySearchedController">
     <div class="col-xs-12">
-        <ul class="frequently-searched-list list-unstyled">
+        <ul class="frequently-searched-list list-unstyled well well-sm">
             <li ng-repeat="region in vm.FrequentlySearchedList.Items">
-                <a ui-sref="Results({region: region.Id})">{{region.Name}}</a>
+                <a ui-sref="Results({rid: region.Id})">{{region.Name}}</a>
             </li>
         </ul>
     </div>

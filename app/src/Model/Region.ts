@@ -8,19 +8,21 @@ module TacZ {
             public Cities = new TacZ.Util.List<TacZ.Interface.Model.ICity>();
             public Buildings = new TacZ.Util.List<TacZ.Interface.Model.IBuilding>();
             public Roads = new TacZ.Util.List<TacZ.Interface.Model.IRoad>();
-            public Name ="";
+            public Name = "";
             public Description = "";
             public Image = new TacZ.Model.TacImage();
 
-            constructor(){
+            constructor(Name?:string, Id?:string) {
                 super();
+                this.Name = Name;
+                this.Id = Id;
             }
 
             public GetId() {
                 return this.Id;
             }
 
-            public SetId(id: string) {
+            public SetId(id:string) {
                 this.Id = id;
             }
         }

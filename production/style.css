@@ -1,0 +1,8 @@
+.container-fluid{
+    padding-top: 30px;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+.frequently-searched-list.list-unstyled{}

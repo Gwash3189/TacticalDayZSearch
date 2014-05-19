@@ -1,7 +1,6 @@
 module.exports = function (grunt) {
 
-    // load the task 
-    grunt.loadNpmTasks("grunt-typescript");
+    // load the task
     grunt.loadNpmTasks("grunt-ts");
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -51,7 +50,7 @@ module.exports = function (grunt) {
             },
             copyRegion: {
                 files: 'app/src/Region/**',
-                tasks: ['copy:regions']
+                tasks: ['copy:regionsJson', 'copy:regionsImg']
             },
             copyTemplates: {
                 files: 'app/src/Template/**',
@@ -61,7 +60,7 @@ module.exports = function (grunt) {
         concat: {
             css: {
                 src: ['app/style/**/*.css'],
-                dest: 'app/production/style.css'
+                dest: 'production/style.css'
             }
         },
         karma: {
@@ -70,8 +69,14 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            regions: {
-                src: '**',
+            regionsJson: {
+                src: '*.json',
+                dest: 'production/Region/',
+                cwd: "app/src/Region/",
+                expand: true
+            },
+            regionsImg: {
+                src: '*.png',
                 dest: 'production/Region/',
                 cwd: "app/src/Region/",
                 expand: true

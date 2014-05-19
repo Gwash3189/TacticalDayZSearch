@@ -1,1 +1,59 @@
-{{vm.Region}}
+<div class="row">
+    <div class="col-xs-6">
+        <img class="img-responsive img-rounded" src="" ng-src="{{vm.Region.Image.Image.src}}" alt=""/>
+    </div>
+    <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>{{vm.Region.Name}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <span class="">{{vm.Region.Description}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Buildings</h3>
+                    </div>
+                </div>
+                <ul>
+                    <li ng-repeat="Building in vm.Region.Buildings.Items">
+                        <span class="bold-text">{{Building.Name}}:</span> <span>{{Building.BuildingDescription}}. {{Building.LocationDescription}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" data-ng-hide="vm.Region.Roads.Items.length >= 0">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Roads</h3>
+                    </div>
+                </div>
+                <ul>
+                    <li ng-repeat="Road in vm.Region.Roads.Items">
+                        <span class="bold-text">{{Building.Name}}:</span><span>{{Building.BuildingDescription}}. {{Building.LocationDescription}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" data-ng-hide="vm.Region.Cities.Items.length >= 0">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>Cities</h3>
+                    </div>
+                </div>
+                <ul>
+                    <li ng-repeat="City in vm.Region.Cities.Items">
+                        <span class="bold-text">{{City.Name}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
